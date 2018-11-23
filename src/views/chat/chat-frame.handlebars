@@ -1,0 +1,102 @@
+<div class="x-bg-dark">
+  <div class="chat-box-panel">
+
+    <div id="chat-panel"></div><!--Display the user chat-->
+
+    <div class="form-group message-sender-panel col-md-6 mx-auto">
+      <div class="row">
+        <div class="col-sm-9">
+          <input type="text" id="message" placeholder="Type Message" class="form-control" />
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-primary" id="sendMessage">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io('/xraytalk');
+  var userID = null; //-- to be retrieved from address bar
+  var chatRoomId = null; //-- to be retrieved from address bar
+
+  socket.on('connect', function(){
+    chatRoomId = "$2a$12$ZWMorggp2WRuaU30RKEGI./9tc.h9vycPi4oNn8k7NJIzvrhI8gPK";
+    userID = "5be0fcc620a04c17f4916a9d";
+
+    socket.emit('privateChat',chatRoomId, function(err){
+      if(err){
+        //-- use a display box to show output
+        console.log(err);
+      }
+    });
+  });
+
+  var ChatUI = (function(){
+    var chatPanelObj = $('#chat-panel'); //-- selects the div where id=chat-panel
+    var messageObj = $('#message');
+    var sendMessageBtnObj = $('#sendMessage');
+
+    function generateMessageTemplate(message, imgSrc, userType){
+      var messageBox = document.createElement('div');
+      messageBox.setAttribute('class', 'message-box ' + userType);
+
+      var messageTemplate ='<img src="%%src%%" class="chat-thumbnail"/>'+
+                            '<div class="message">'+
+                              '<span>%%message%%</span>'+
+                            '</div>';
+      messageTemplate = messageTemplate.replace(/\%\%src\%\%/, imgSrc);
+      messageTemplate = messageTemplate.replace(/\%\%message\%\%/, message);
+
+      messageBox.innerHTML = messageTemplate;
+
+      return messageBox;
+    }
+    
+         
+
+    return {
+      chatPanelObj: chatPanelObj,
+      messageObj: messageObj,
+      sendMessageBtnObj: sendMessageBtnObj,
+
+      generateMessageTemplate: generateMessageTemplate
+    };
+  })();
+
+  //-- Loads the previous chats
+  socket.on('loadMessage', function(chats){
+     ChatUI.chatPanelObj = ChatUI.chatPanelObj.empty();
+
+    for(const chat of chats){
+      let messageTemplate = ChatUI.generateMessageTemplate(chat.message, chat.profilePics, chat.userType);
+      ChatUI.chatPanelObj.append(messageTemplate);
+    }
+  });
+
+  //-- Send a message
+  ChatUI.sendMessageBtnObj.on('click', function(){
+    var message = ChatUI.messageObj;
+
+    if(message.val() !== ""){ //-- message is not empty
+
+      socket.emit('createMessage', {message: message.val(), userID: userID, chatRoomId: chatRoomId}, function(){
+        message = message.val(); // clear the message field
+      });
+
+    }
+  })
+
+  socket.on('newMessage', function(message){
+    for(const chat of message){
+      let messageTemplate = ChatUI.generateMessageTemplate(chat.message, chat.profilePics, chat.userType);
+      ChatUI.chatPanelObj.append(messageTemplate);
+    }
+  });
+  
+  socket.on('disconnect', function(){
+    alert('Connection to server lost');
+  });
+</script>

@@ -1,0 +1,20 @@
+{{#if success_msg}}
+  <div class="dialog alert alert-success">
+    <a href="#" data-dismiss="alert" class="close">&times;</a>
+    <p>{{success_msg}}</p>
+  </div>
+{{/if}}
+
+{{#if error_msg}}
+  <div class="dialog alert alert-danger">
+    <a href="#" data-dismiss="alert" class="close">&times;</a>
+    <p>{{error_msg}}</p>
+  </div>
+{{/if}}
+
+{{#if error}}
+  <div class="dialog alert alert-danger">
+    <a href="#" data-dismiss="alert" class="close">&times;</a>
+    <p>{{error}}</p>
+  </div>
+{{/if}}

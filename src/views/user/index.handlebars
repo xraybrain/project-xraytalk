@@ -1,0 +1,29 @@
+<div class="container-fluid x-bg-dark social-media-nav">
+  <div class="row">
+    <div class="col-sm-4 text-center media-nav active-media-nav" id="friends-list-nav">
+      <a class="nav-link" href="#">Friends</a>
+    </div>
+
+    <div class="col-sm-4 text-center media-nav" id="chat-list-nav">
+      <a class="nav-link" href="#">Chat</a>
+    </div>
+
+    <div class="col-sm-4 text-center media-nav" id="find-friends-list-nav">
+      <a class="nav-link" href="#">Find Friend</a>
+    </div>
+  </div>
+  <div class="media-container">
+    <!--dynamic -->
+    <div class="list">
+      <div id="friends-list" class=""></div>
+      <div id="find-friends-list" class=""></div>
+    </div>
+    <div id="chat-box"></div>
+  </div>
+</div>
+
+<input type="hidden" value="{{user._id}}" id="sid" />
+<input type="hidden" value="" id="rid" />
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/core/js/index.js"></script>

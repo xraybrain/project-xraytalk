@@ -1,0 +1,182 @@
+<nav class="navbar navbar-expand-sm navbar-dark nav--bg">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/"><img src="/core/img/Xraytalk.png" alt="xraytalk logo" width="80px" height="50px"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="narbarNav"
+        aria-expanded="false" aria-lable="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        {{#if user}}
+        <li class="nav-item dropdown">
+          <img src="{{profilePics}}" alt="Profile picture" class="thumbnail" data-toggle="dropdown"/>
+          <ul class="dropdown-menu setup">
+            <li role="presentation">
+              <a href="#" role="menu-item">{{user.userName}}</a>
+            </li>
+            <li class="presentation">
+              <a href="/user/logout/" role="menu-item">Logout</a>
+            </li>
+          </ul>
+        </li>
+        {{else}}
+        <li class="nav-item mr-1">
+          <a href="/users/login" class="nav-link btn btn-primary btn-sm" data-toggle="modal" data-target="#login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="/users/register" class="nav-link btn btn-primary btn-sm" data-toggle="modal" data-target="#register">Sign
+            Up</a>
+        </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+
+<!--Login Modal Dialog-->
+<div class="modal fade" id="login">
+  <div class="modal-dialog x-bg-dark mt-10">
+    <div class="modal-content x-bg-dark">
+      <div class="modal-header">
+        <h3 class="text-center text-white">Login To Xraytalk</h3>
+        <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/user/login">
+          <div class="form-group">
+            <label for="username">User Name</label>
+            <input type="text" class="form-control" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--Register Modal Dialog-->
+<div class="modal fade" id="register">
+  <div class="modal-dialog x-bg-dark">
+    <div class="modal-content x-bg-dark">
+      <div class="modal-header">
+        <h3 class="text-center text-white">Account Register</h3>
+        <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body mt-0">
+        <form action="/user/register" method="post">
+          <div class="form-group">
+            <label for="userName">Username</label>
+            <input type="text" id="userName" name="userName" class="form-control" value="{{userName}}" required>
+
+
+            <!-- This is used by the frontend javascript-->
+            <div id="userNameStatusBox" class="statusBox"><i class="icon" id="status0"></i></div>
+            <!-- This is used by the frontend javascript-->
+
+            {{#each errors}}
+            {{#if userNameError}}
+            <div class="col-md-10">
+              <p class="alert alert-danger text-small mt-2">
+                <span class="close icon-small" data-dismiss="alert">&times;</span>
+                {{userNameError}}
+              </p>
+            </div>
+            {{/if}}
+
+            {{else}}
+
+            {{/each}}
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="emailAddress" class="form-control" value="{{email}}" required>
+          </div>
+
+          <!-- This is used by the frontend javascript-->
+          <div id="emailStatusBox" class="statusBox"><i class="icon" id="status1"></i></div>
+          <!-- This is used by the frontend javascript-->
+
+          {{#each errors}}
+          {{#if emailAddressError}}
+          <div class="col-md-10">
+            <p class="alert alert-danger text-small mt-2">
+              <span class="close icon-small" data-dismiss="alert">&times;</span>
+              {{emailAddressError}}
+            </p>
+          </div>
+          {{/if}}
+
+          {{else}}
+
+          {{/each}}
+
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" value="{{password}}" required>
+
+            <!-- This is used by the front end javascript -->
+            <div class="statusBox" id="passwordStatusBox"><i class="icon" id="status2"></i></div>
+            <!-- ends here -->
+          </div>
+
+          {{#each errors}}
+          {{#if passwordError}}
+          <div class="col-md-10">
+            <p class="alert alert-danger text-small mt-2">
+              <span class="close icon-small" data-dismiss="alert">&times;</span>
+              {{passwordError}}
+            </p>
+          </div>
+          {{/if}}
+
+          {{else}}
+
+          {{/each}}
+
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" value="{{confirmPassword}}"
+              required>
+
+            <!-- This is used by the front end javascript -->
+            <div class="statusBox" id="confirmPasswordStatusBox">
+              <i class="icon" id="status3"></i>
+            </div>
+            <!-- ends here -->
+
+            {{#each errors}}
+            {{#if confirmPasswordError}}
+            <div class="col-md-10">
+              <p class="alert alert-danger text-small mt-2">
+                <span class="close icon-small" data-dismiss="alert">&times;</span>
+                {{confirmPasswordError}}
+              </p>
+            </div>
+            {{/if}}
+
+            {{else}}
+
+            {{/each}}
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/core/js/register.js"></script>
