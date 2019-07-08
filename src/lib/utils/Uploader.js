@@ -4,7 +4,6 @@
 const path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
-const gm = require('gm');
 
 //-- Load UploadValidator
 const {
