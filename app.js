@@ -183,3 +183,15 @@ server.listen(port, () => {
   console.log(`| Server is up on port [${port}] |`)
   console.log("+-----------------------------+");
 });
+
+const {upload} = require('./src/lib/utils/Uploader');
+app.post('/', (req, res, next)=>{
+  upload(req, res, next, { 
+    targetUploadDir: path.join(__dirname,'public/core/uploads'),
+    relativeDir: 'core/uploads',
+    isAjaxCall: true,
+    successRedirect: '/',
+    failureRedirect: '/',
+    User: Users
+  });
+});
