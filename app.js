@@ -74,7 +74,7 @@ app.use(session({resave:true, secret: "xrayTalkOnWeb001", saveUninitialized: tru
 app.use(connectFlash());
 
 //-- serve-favicon middleware
-app.use(favicon(path.join(__dirname , 'public', 'core', 'favicon', 'favicon.ico')));
+app.use(favicon(path.join(__dirname , 'public', 'core', 'img', 'Xraytalk.png')));
 
 //-- Constant data used by the handlebars
 const viewsPath = path.join(__dirname,'src/views');
